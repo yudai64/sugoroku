@@ -39,6 +39,7 @@
         foreach($this->players as $player) {
           $name = $player->returnName();
           echo $name . "の番です</br>";
+
           //現在の位置もってくる
           switch($name) {
             case "Taro":
@@ -55,6 +56,7 @@
           } else {
             echo "現在の位置は" . $now_position . "マス目です。</br>";
           }
+
           //サイコロ振る
           $number = $this->throwDice();
           echo $number . "の目がでました。</br>" . $number . "マス進みます。</br>";
@@ -67,31 +69,51 @@
           }
 
           $effect = $this->board[$now_position][1];
+          $count = 1;
 
-          //支持にしたがってマス目移動
-          if ($effect == 1000) {
-            //1000はゴールを意味するマス
-            echo $name. "はゴールしました！.</br>" . $name . "の勝ちです！";
-            exit();
-            //100はスタートに戻るを意味するマス
-          } else if ($effect == 100) {
-            echo "マス目にはスタート地点に戻ると書いてあります。スタート地点に戻ります。。。</br>";
-            $now_position = 0;
-          } else {
-            if ($effect > 0) {
-              echo "マス目には" . $effect . "進むと書いてあります。" . $effect . "マス進みます！</br>";
-            } else if ($effect < 0) {
-              echo "マス目には" . abs($effect) . "戻ると書いてあります。" . abs($effect) . "マス戻ります。。</br>";
+          //マス目の支持で移動したマス目にまた支持があった場合、3回まで指示は有効
+          while ($count <= 3) {
+            //支持にしたがってマス目移動
+            if ($effect == 1000) {
+              //1000はゴールを意味するマス。ゲーム終了
+              echo $name. "はゴールしました！.</br>" . $name . "の勝ちです！";
+              exit();
+            } else if ($effect == 100) {
+              //100はスタートに戻るを意味するマス。スタートに戻させる
+              echo "マス目にはスタート地点に戻ると書いてあります。スタート地点に戻ります。。。</br>";
+              $now_position = 0;
             } else {
-              echo "マス目には何も書いてありませんでした。</br>";
+              if ($effect > 0) {
+                echo "マス目には" . $effect . "進むと書いてあります。" . $effect . "マス進みます！</br>";
+              } else if ($effect < 0) {
+                echo "マス目には" . abs($effect) . "戻ると書いてあります。" . abs($effect) . "マス戻ります。。</br>";
+              } else {
+                echo "マス目には何も書いてありませんでした。</br>";
+              }
+              $now_position += $effect;
+              
+              //足した数がゴールより大きくなった場合、そのぶんだけ戻る
+              if ($now_position > $squares) {
+                echo "ちょうどゴール出来なかった場合、その分だけ戻ります。</br>";
+                $now_position = $squares - ($now_position - $squares);
+              }
             }
-            $now_position += $effect;
-          }
 
-          //マス目が0より小さくなった場合はスタート地点から
-          if ($now_position < 0) {
-            echo "これ以上戻れないのでスタート地点まで戻ります。</br>";
-            $now_position = 0;
+            //マス目が0より小さくなった場合はスタート地点から
+            if ($now_position < 0) {
+              echo "これ以上戻れないのでスタート地点まで戻ります。</br>";
+              $now_position = 0;
+            }
+
+            //マスの支持で移動したマス目に指示がなかった場合、繰り返しぬける
+            if ($this->board[$now_position][1] != 0) {
+              $effect = $this->board[$now_position][1];
+            } else {
+              break;
+            }
+
+            //カウント
+            $count++;
           }
 
           //ターン終了後の現在地を表示
