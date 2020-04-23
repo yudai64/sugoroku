@@ -70,10 +70,18 @@
           //コメントの支持にしたがってマス目移動
           $now_position += $effect;
 
+          //マス目が0より小さくなった場合はスタート地点から
+          if ($now_position < 0) {
+            echo "これ以上戻れないのでスタート地点まで戻ります。</br>";
+            $now_position = 0;
+          }
+
           //ちょうどゴールに到達したら終わり
           if ($now_position == $squares) {
             echo $name. "はゴールしました！.</br>" . $name . "の勝ちです！";
             exit();
+          } else if ($now_position == 0){
+            echo "現在、スタート地点です。</br></br>";
           } else {
             echo "現在の位置は" . $now_position . "マス目です。</br></br>";
           }
