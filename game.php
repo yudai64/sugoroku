@@ -48,8 +48,10 @@
               $now_position = $now_positions[1];
             break;
           }
+
+          //ターン開始時の現在地表示
           if ($now_position == 0) {
-            echo "現在スタート地点です。</br>";
+            echo "現在の位置はスタート地点です。</br>";
           } else {
             echo "現在の位置は" . $now_position . "マス目です。</br>";
           }
@@ -65,10 +67,26 @@
           }
 
           $effect = $this->board[$now_position][1];
-          //止まったマスのコメント表示
-          echo $this->board[$now_position][2] . "</br>";
-          //コメントの支持にしたがってマス目移動
-          $now_position += $effect;
+
+          //支持にしたがってマス目移動
+          if ($effect == 1000) {
+            //1000はゴールを意味するマス
+            echo $name. "はゴールしました！.</br>" . $name . "の勝ちです！";
+            exit();
+            //100はスタートに戻るを意味するマス
+          } else if ($effect == 100) {
+            echo "マス目にはスタート地点に戻ると書いてあります。スタート地点に戻ります。。。</br>";
+            $now_position = 0;
+          } else {
+            if ($effect > 0) {
+              echo "マス目には" . $effect . "進むと書いてあります。" . $effect . "マス進みます！</br>";
+            } else if ($effect < 0) {
+              echo "マス目には" . abs($effect) . "戻ると書いてあります。" . abs($effect) . "マス戻ります。。</br>";
+            } else {
+              echo "マス目には何も書いてありませんでした。</br>";
+            }
+            $now_position += $effect;
+          }
 
           //マス目が0より小さくなった場合はスタート地点から
           if ($now_position < 0) {
@@ -76,15 +94,12 @@
             $now_position = 0;
           }
 
-          //ちょうどゴールに到達したら終わり
-          if ($now_position == $squares) {
-            echo $name. "はゴールしました！.</br>" . $name . "の勝ちです！";
-            exit();
-          } else if ($now_position == 0){
-            echo "現在、スタート地点です。</br></br>";
-          } else {
+          //ターン終了後の現在地を表示
+           if ($now_position == 0){
+            echo "現在の位置はスタート地点です。</br></br>";
+           } else {
             echo "現在の位置は" . $now_position . "マス目です。</br></br>";
-          }
+           }
 
           //現在の位置を格納
           switch($name) {
