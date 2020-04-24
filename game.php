@@ -85,6 +85,7 @@
               //100はスタートに戻るを意味するマス。スタートに戻させる
               echo "マス目にはスタート地点に戻ると書いてあります。スタート地点に戻ります。。。</br>";
               $now_position = 0;
+            break;
             } else {
               if ($effect > 0) {
                 echo "マス目には" . $effect . "進むと書いてあります。" . $effect . "マス進みます！</br>";
@@ -92,6 +93,7 @@
                 echo "マス目には" . abs($effect) . "戻ると書いてあります。" . abs($effect) . "マス戻ります。。</br>";
               } else {
                 echo "マス目には何も書いてありませんでした。</br>";
+              break;
               }
               $now_position += $effect;
               
@@ -100,20 +102,18 @@
                 echo "ちょうどゴール出来なかった場合、その分だけ戻ります。</br>";
                 $now_position = $squares - ($now_position - $squares);
               }
-            }
 
-            //マス目が0より小さくなった場合はスタート地点から
-            if ($now_position < 0) {
-              echo "これ以上戻れないのでスタート地点まで戻ります。</br>";
-              $now_position = 0;
-            }
-
-            //マスの支持で移動したマス目に指示がなかった場合、繰り返しぬける
-            if ($this->board[$now_position][1] != 0) {
-              $effect = $this->board[$now_position][1];
-            } else {
+              //マス目が0より小さくなった場合はスタート地点から
+              if ($now_position < 0) {
+                echo "これ以上戻れないのでスタート地点まで戻ります。</br>";
+                $now_position = 0;
               break;
+              }
+
             }
+
+            //指示で動いたあとのマス目の支持を変数に入れなおす。
+            $effect = $this->board[$now_position][1];
 
             //カウント
             $count++;
