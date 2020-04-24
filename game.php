@@ -93,7 +93,6 @@
               } else {
                 echo "マス目には何も書いてありませんでした。</br>";
               }
-              var_dump($effect);
               $now_position += $effect;
               
               //足した数がゴールより大きくなった場合、そのぶんだけ戻る
