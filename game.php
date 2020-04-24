@@ -1,7 +1,7 @@
 <?php
   class Game {
 
-    private $board = ""; //マス目の番号、アクション、コメントが格納された配列を、マス分格納した配列
+    private $board = ""; //マス目のイベントを意味する数字を格納した配列
     private $players = array(); //人オブジェクトが入った配列
     private $dice = ""; // 1~6までの数字が入った配列
     
@@ -19,7 +19,6 @@
     function setDice($dice) {
       $this->dice = $dice->returnNumbers();
     }
-
 
     //ゲームスタート
     function start() {
@@ -76,7 +75,7 @@
             $now_position = $squares - ($now_position - $squares);
           }
 
-          $effect = $this->board[$now_position][1];
+          $effect = $this->board[$now_position];
           $count = 1;
 
           //マス目の支持で移動したマス目にまた支持があった場合、3回まで指示は有効
@@ -114,7 +113,7 @@
             }
 
             //指示で動いたあとのマス目の支持を変数に入れなおす。
-            $effect = $this->board[$now_position][1];
+            $effect = $this->board[$now_position];
 
             //カウント
             $count++;
