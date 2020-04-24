@@ -23,7 +23,8 @@
     //ゲームスタート
     function start() {
       //ゴール地点設定
-      $squares = count($this->board) -1;
+      $squares = count($this->board);
+      echo "今回のマス目は" . $squares . "です</br>";
       //ターン数初期設定
       $turn = 1;
       
@@ -77,7 +78,7 @@
           if ($now_position == $squares) {
             //ちょうどゴールに到達した場合、ゲーム終了
             echo $name. "はゴールしました！.</br>" . $name . "の勝ちです！";
-            echo $name . "は合計で" . $total . "マス移動しました";
+            echo $name . "は合計で" . $total . "マス移動しました。";
             exit();
           } else if ($now_position > $squares) {
             //足した数がゴールより大きくなった場合、そのぶんだけ戻る
@@ -143,6 +144,10 @@
             //指示で動いたあとのマス目の支持を変数に入れなおす。
             $effect = $this->board[$now_position];
 
+            //現在の位置を表示
+            if ($count != 3) {
+              echo "現在の位置は" . $now_position . "マス目です。</br>";
+            }
             //カウント
             $count++;
           }
@@ -187,18 +192,7 @@
           }
           exit();
         }
-        foreach($this->players as $player) {
-          $name = $player->returnName();
-          switch($name) {
-            case "Taro":
-              $total = $totals[0];
-            break;
-            case "Jiro":
-              $total = $totals[1];
-            break;
-          }
-          echo $name . "は合計で" . $total . "マスだけ移動しました。</br>";
-        }
+
         echo "</br>";
       }       
     }
