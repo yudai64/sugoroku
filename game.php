@@ -29,7 +29,10 @@
       $turn = 1;
       
       //現在の位置を表す配列
-      $now_positions = array($this->players[0]->returnNowPosition(), $this->players[1]->returnNowPosition());
+      $now_positions = array();
+      foreach($this->players as $player) {
+        $now_positions[] = $player->returnNowPosition();
+      }
 
       //どちらかがゴールするまで繰り返し
       while ($now_positions[0] != $squares && $now_positions[1] != $squares) {
@@ -90,6 +93,7 @@
               } else {
                 echo "マス目には何も書いてありませんでした。</br>";
               }
+              var_dump($effect);
               $now_position += $effect;
               
               //足した数がゴールより大きくなった場合、そのぶんだけ戻る
