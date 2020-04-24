@@ -65,8 +65,13 @@
           echo $number . "の目がでました。</br>" . $number . "マス進みます。</br>";
           //現在のマス目にサイコロでてた数分を足す。
           $now_position += $number;
-          //足した数がゴールより大きくなった場合、そのぶんだけ戻る
-          if ($now_position > $squares) {
+
+          if ($now_position == $squares) {
+            //ちょうどゴールに到達した場合、ゲーム終了
+            echo $name. "はゴールしました！.</br>" . $name . "の勝ちです！";
+            exit();
+          } else if ($now_position > $squares) {
+            //足した数がゴールより大きくなった場合、そのぶんだけ戻る
             echo "ちょうどゴール出来なかった場合、その分だけ戻ります。</br>";
             $now_position = $squares - ($now_position - $squares);
           }
@@ -77,11 +82,7 @@
           //マス目の支持で移動したマス目にまた支持があった場合、3回まで指示は有効
           while ($count <= 3) {
             //支持にしたがってマス目移動
-            if ($effect == 1000) {
-              //1000はゴールを意味するマス。ゲーム終了
-              echo $name. "はゴールしました！.</br>" . $name . "の勝ちです！";
-              exit();
-            } else if ($effect == 100) {
+            if ($effect == 100) {
               //100はスタートに戻るを意味するマス。スタートに戻させる
               echo "マス目にはスタート地点に戻ると書いてあります。スタート地点に戻ります。。。</br>";
               $now_position = 0;
