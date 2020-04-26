@@ -38,9 +38,12 @@
         $totals[] = 0;
       }
 
+      //ゲーム終了を決める関数
+      $progress = true;
 
-      //どちらかがゴールするまで繰り返し
-      while ($now_positions[0] != $squares && $now_positions[1] != $squares) {
+
+      //どちらかがゴールするまで(progressがtrueである限り)繰り返し
+      while ($progress) {
         echo $turn . "ターン目</br>";
         
         //それぞれサイコロ振って進める
@@ -79,7 +82,8 @@
             //ちょうどゴールに到達した場合、ゲーム終了
             echo $name. "はゴールしました！.</br>" . $name . "の勝ちです！";
             echo $name . "は合計で" . $total . "マス移動しました。";
-            exit();
+            $progress = false;
+          break;
           } else if ($now_position > $squares) {
             //足した数がゴールより大きくなった場合、そのぶんだけ戻る
             echo "ちょうどゴール出来なかった場合、その分だけ戻ります。</br>";
@@ -124,7 +128,8 @@
                 //マス目の指示でゴールに到達した場合もゲーム終了
                 echo $name. "はゴールしました！" . $name . "の勝ちです！";
                 echo $name . "は合計で" . $total . "マス移動しました";
-                exit();
+                $progress = false;
+              break;
               // }
               } else if ($now_position > $squares) {
                 //足した数がゴールより大きくなった場合、そのぶんだけ戻る
